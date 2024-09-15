@@ -30,7 +30,6 @@ public class BookController {
     @GetMapping("/ping")
     public String ping() {
         log.info("请求进来");
-        log.info("测试回退");
         return "pong";
     }
 
