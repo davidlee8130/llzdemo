@@ -30,4 +30,11 @@ public class ResultVO<T> {
         resultVO.data = data;
         return resultVO;
     }
+
+    public static <T>ResultVO<T> error(String msg){
+        ResultVO<T> resultVO = new ResultVO<T>();
+        resultVO.code = ResultCodeEnum.ERROR.getCode();
+        resultVO.msg = msg;
+        return resultVO;
+    }
 }

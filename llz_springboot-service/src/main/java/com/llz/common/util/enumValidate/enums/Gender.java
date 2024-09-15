@@ -1,18 +1,17 @@
-package com.llz.common.enums;
+package com.llz.common.util.enumValidate.enums;
 
 /**
- * 结果响应码枚举
+ * 性别
  */
-public enum ResultCodeEnum {
-
-    SUCCESS("0","成功"),
-    ERROR("1","失败");
+public enum Gender {
+    MAN("1","男"),
+    WOMEN("2","女");
 
     private String code;
 
     private String msg;
 
-    ResultCodeEnum(String code, String msg) {
+    Gender(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }
