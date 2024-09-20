@@ -17,7 +17,7 @@ import javax.validation.Valid;
 @RestController
 @Slf4j
 @RequestMapping("/api/llz")
-public class BookController {
+public class TestController {
 
     @Autowired
     private Test1Dao test1Dao;
@@ -28,8 +28,8 @@ public class BookController {
      */
     @PostMapping("/test01")
     public ResultVO<Object> test01(@Valid @RequestBody ValiTestVO vo){
-      log.info("接口请求:{}", JSON.toJSONString(vo));
-      return ResultVO.success("请求成功");
+        Student student = test1Dao.selectById("2");
+        return ResultVO.success(student);
     }
 
     @GetMapping("/ping")
