@@ -1,6 +1,7 @@
 package com.llz.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.llz.common.log.MethodLog;
 import com.llz.controller.vo.ResultVO;
 import com.llz.controller.vo.ValiTestVO;
 import com.llz.dao.Test1Dao;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
 @RestController
 @Slf4j
 @RequestMapping("/api/llz")
-public class BookController {
+public class TestController {
 
     @Autowired
     private Test1Dao test1Dao;
@@ -26,10 +27,11 @@ public class BookController {
      * 测试接口
      * @return
      */
+    @MethodLog
     @PostMapping("/test01")
     public ResultVO<Object> test01(@Valid @RequestBody ValiTestVO vo){
-      log.info("接口请求:{}", JSON.toJSONString(vo));
-      return ResultVO.success("请求成功");
+        Student student = test1Dao.selectById("3");
+      return ResultVO.success(student);
     }
 
     @GetMapping("/ping")
