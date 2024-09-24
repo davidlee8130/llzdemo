@@ -15,12 +15,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class AsyncService {
 
     @Async("threadPoolTaskExecutor")
-    public void executeAsyncTask(Integer num, String msg , List<String> list, CountDownLatch countDownLatch, Lock lock) {
+    public void executeAsyncTask(String msg , List<String> list, CountDownLatch countDownLatch, Lock lock) {
         //执行异步任务
 
         try {
-            num ++;
-            log.info("异步线程执行开始{}",num);
             Thread.sleep(100L);
             lock.lock();
             list.add(msg);

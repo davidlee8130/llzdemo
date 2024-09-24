@@ -63,7 +63,7 @@ public class TestController {
         CountDownLatch countDownLatch = new CountDownLatch(500);
         Lock lock = new ReentrantLock();
         for (String s : list) {
-            asyncService.executeAsyncTask(num, s, list1,countDownLatch,lock);
+            asyncService.executeAsyncTask(s, list1,countDownLatch,lock);
             //            try {
 //                num++;
 //                log.info("执行第{}条",num);
@@ -84,6 +84,21 @@ public class TestController {
         log.info("执行时间:{}ms",time);
         int size = list1.size();
         return ResultVO.success(size);
+    }
+
+    @GetMapping("/ping2")
+    public ResultVO<Object> ping2() {
+        Runnable runnable = () -> {
+            log.info("异步线程启动!");
+            try {
+                Thread.sleep(2000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log.info("异步线程执行完毕!");
+        };
+        new Thread(runnable).start();
+        return ResultVO.success("调用接口完毕");
     }
 
 }
