@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
@@ -59,19 +60,36 @@ public class TestController {
         }
         List<String> list1 = new ArrayList<>();
         long start = System.currentTimeMillis();
-        Integer num = 0;
+        CountDownLatch countDownLatch = new CountDownLatch(500);
+        Lock lock = new ReentrantLock();
+        for (String s : list) {
+            asyncService.executeAsyncTask2(s, list1,countDownLatch,lock);
+        }
+        try {
+            countDownLatch.await();
+            log.info("所有线程执行完毕");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        long end = System.currentTimeMillis();
+        long time = end - start;
+        log.info("执行时间:{}ms",time);
+        int size = list1.size();
+        return ResultVO.success(size);
+    }
+
+    @GetMapping("/ping3")
+    public ResultVO<Object> ping3() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 500; i++) {
+            list.add("2");
+        }
+        List<String> list1 = new CopyOnWriteArrayList<>();
+        long start = System.currentTimeMillis();
         CountDownLatch countDownLatch = new CountDownLatch(500);
         Lock lock = new ReentrantLock();
         for (String s : list) {
             asyncService.executeAsyncTask(s, list1,countDownLatch,lock);
-            //            try {
-//                num++;
-//                log.info("执行第{}条",num);
-//                Thread.sleep(100L);
-//                list1.add(s);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
         try {
             countDownLatch.await();

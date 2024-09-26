@@ -17,9 +17,31 @@ public class AsyncService {
     @Async("threadPoolTaskExecutor")
     public void executeAsyncTask(String msg , List<String> list, CountDownLatch countDownLatch, Lock lock) {
         //执行异步任务
-
         try {
-            Thread.sleep(100L);
+            Thread.sleep(200L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        lock.lock();
+        list.add(msg);
+//        try {
+//            Thread.sleep(100L);
+//            lock.lock();
+//            list.add(msg);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } finally {
+//            lock.unlock();
+//        }
+        countDownLatch.countDown();
+
+    }
+
+    @Async("threadPoolTaskExecutor")
+    public void executeAsyncTask2(String msg , List<String> list, CountDownLatch countDownLatch, Lock lock) {
+        //执行异步任务
+        try {
+            Thread.sleep(200L);
             lock.lock();
             list.add(msg);
         } catch (InterruptedException e) {
